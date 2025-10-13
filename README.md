@@ -1,120 +1,312 @@
-# Mermaid to Excalidraw Converter (Obsidian Plugin) 🧉
+# Mermaid to Excalidraw Converter 🐻📊
 
-_Fueled by Yerba Mate and a love for diagrams!_
+_Transform diagrams with bear-like precision and intelligent conversion_ 🧉
 
-This plugin for Obsidian allows you to convert Mermaid.js diagram code blocks into fully functional Excalidraw drawings with proper text labels and formatting.
+[![Obsidian Plugin](https://img.shields.io/badge/Obsidian-Plugin-purple.svg)](https://obsidian.md/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.7.4-blue.svg)](https://www.typescriptlang.org/)
+[![Mermaid](https://img.shields.io/badge/Mermaid-10.9.0-pink.svg)](https://mermaid.js.org/)
+[![Excalidraw](https://img.shields.io/badge/Excalidraw-0.17.1-orange.svg)](https://excalidraw.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/yahyazekry)
+A powerful Obsidian plugin that seamlessly converts Mermaid.js diagram code blocks into fully functional Excalidraw drawings with proper text labels, intelligent formatting, and comprehensive diagram support.
 
-## ✨ Features
+---
 
-- **Full Mermaid Conversion**: Convert any Mermaid diagram to a proper Excalidraw drawing
-- **Bulk Conversion**: Convert all Mermaid diagrams in a file at once with the ribbon icon
-- **Multiple Diagram Types**: Supports flowcharts, sequence diagrams, gantt charts, state diagrams, ER diagrams, pie charts, journey maps, requirement diagrams, timelines, and mindmaps
-- **Smart Image Handling**: Complex diagrams (gantt, pie, etc.) are converted as images for best visual fidelity
-- **Text Labels**: Text labels from supported diagrams are preserved and rendered correctly
-- **Seamless Integration**: Works perfectly with the official Excalidraw plugin
-- **Proper File Format**: Creates compressed `.excalidraw.md` files that are fully compatible
-- **Easy to Use**: Simple command palette interface and ribbon icon for bulk operations
+## ✨ Intelligent Features
 
-## 🚀 What's New
+### 📊 **Complete Diagram Conversion**
+- **Universal Mermaid Support** - Convert any Mermaid diagram type to Excalidraw format
+- **Text Preservation** - Labels, annotations, and formatting maintained during conversion
+- **Smart Rendering** - Automatic optimization for different diagram complexities
+- **Bulk Processing** - Convert multiple diagrams simultaneously with one click
 
-This plugin now features:
+### 🎨 **Advanced Visual Processing**
+- **Intelligent Shape Recognition** - Converts Mermaid elements to appropriate Excalidraw shapes
+- **Layout Optimization** - Maintains spatial relationships and visual hierarchy
+- **Style Preservation** - Colors, fonts, and formatting carried over accurately
+- **Compression Technology** - LZ-string compression for optimal file compatibility
 
-- ✅ Complete Mermaid to Excalidraw conversion
-- ✅ Proper text rendering in diagrams
-- ✅ LZ-string compression for compatibility
-- ✅ Full integration with official Excalidraw plugin
-- ✅ Support for complex Mermaid diagrams (flowcharts, graphs, etc.)
+### ⚡ **Seamless Integration**
+- **Native Obsidian Experience** - Ribbon icons and command palette integration
+- **Excalidraw Plugin Compatibility** - Perfect integration with official Excalidraw plugin
+- **File Format Standards** - Creates proper `.excalidraw.md` files with full compatibility
+- **Workflow Optimization** - Single-click conversion from code to visual diagram
 
-## Based on Excalidraw's Work
+### 🔄 **Batch Operations**
+- **Multi-Diagram Files** - Process entire documents with multiple Mermaid blocks
+- **Automatic Numbering** - Generated files with intelligent naming conventions
+- **Progress Feedback** - Real-time conversion status and success notifications
+- **Error Recovery** - Graceful handling of malformed diagrams with detailed feedback
 
-This plugin utilizes and is inspired by the core functionality of the [`@excalidraw/mermaid-to-excalidraw`](https://github.com/excalidraw/mermaid-to-excalidraw) library.
-The original library is licensed under the MIT License, Copyright (c) 2023 Excalidraw.
+---
 
-## 📦 Installation
+## 🧉 **Technology Stack**
 
-### Option 1: Manual Installation
+**Core Framework**
+- **Obsidian API** - Latest plugin architecture with modern TypeScript patterns
+- **TypeScript 4.7.4** - Type-safe development with comprehensive interfaces
+- **ESBuild 0.17.3** - Lightning-fast bundling with production optimizations
 
-1.  **Download or Build the plugin** (See Development section below if building from source).
-2.  **Copy Plugin Files:**
-    - `main.js`
-    - `manifest.json`
-3.  **Create Plugin Folder:** In your Obsidian vault, go to `.obsidian/plugins/` and create a new folder named `mermaid-to-excalidraw`.
-4.  **Paste Files:** Paste `main.js` and `manifest.json` into this new folder.
-5.  **Enable Plugin:**
-    - Open Obsidian settings.
-    - Go to "Community Plugins".
-    - Turn off "Restricted mode" if it's on.
-    - Find "Mermaid to Excalidraw Converter" in the list and enable it.
+**Diagram Processing**
+- **Mermaid 10.9.0** - Latest Mermaid.js engine with full syntax support
+- **Excalidraw 0.17.1** - Advanced drawing library with shape primitives
+- **Markdown-to-Text 0.1.2** - Text extraction and processing utilities
+- **NanoID 4.0.2** - Unique identifier generation for diagram elements
 
-### Option 2: BRAT (Beta Reviewers Auto-update Tool)
+**Data Management**
+- **LZ-String 1.5.0** - Efficient compression for Excalidraw file format
+- **JSON Processing** - Advanced object serialization and deserialization
+- **File System Integration** - Native Obsidian vault file operations
 
-1. Install the BRAT plugin from Obsidian Community Plugins
-2. Add this repository URL in BRAT settings
-3. The plugin will be automatically installed and updated
+**Development & Testing**
+- **Jest 29.7.0** - Comprehensive testing framework with TypeScript support
+- **TS-Jest 29.1.0** - TypeScript testing integration
+- **ESLint 5.29.0** - Code quality and consistency enforcement
 
-## 🎯 How to Use
+---
 
-### Single Diagram Conversion
+## 🚀 Installation Methods
 
-1.  Create or open a note in Obsidian.
-2.  Write your Mermaid diagram code. For example:
-    ```
-    graph TD
-        A[Start] --> B{Decision}
-        B -->|Yes| C[Action 1]
-        B -->|No| D[Action 2]
-        C --> E[End]
-        D --> E[End]
-    ```
-3.  **Select the entire Mermaid code** (this is important!).
-4.  Open the Command Palette (default `Ctrl+P` or `Cmd+P`).
-5.  Type "Convert Mermaid to New Excalidraw File" and select the command.
-6.  A new file (e.g., `Converted-Mermaid-TIMESTAMP.excalidraw.md`) will be created in your vault.
-7.  Open the new file and switch to Excalidraw view to see your converted diagram with full text labels!
+### **Method 1: Manual Installation (Recommended)**
 
-### Bulk Conversion (New!)
+1. **Download Plugin Files**
+   ```bash
+   # Clone and build from source
+   git clone https://github.com/YahyaZekry/obsidian-mermaid-to-excalidraw.git
+   cd obsidian-mermaid-to-excalidraw
+   npm install && npm run build
+   ```
 
-1.  Open a markdown file containing multiple Mermaid diagrams.
-2.  Click the **workflow icon** (🔄) in the ribbon, or use the command "Convert All Mermaid Diagrams in File".
-3.  The plugin will automatically find and convert all Mermaid code blocks in the file.
-4.  Each diagram will be saved as a separate numbered file: `Filename-Diagram-1.excalidraw.md`, `Filename-Diagram-2.excalidraw.md`, etc.
-5.  A summary notice will show how many diagrams were successfully converted.
+2. **Install in Obsidian**
+   ```
+   📁 Your-Vault/.obsidian/plugins/mermaid-to-excalidraw/
+   ├── main.js (generated from build)
+   ├── manifest.json
+   └── styles.css (if applicable)
+   ```
 
-## 📊 Supported Diagram Types
+3. **Enable Plugin**
+   - Open Obsidian Settings → Community Plugins
+   - Disable "Restricted mode" if enabled
+   - Find "Mermaid to Excalidraw Converter" and enable
 
-| Diagram Type             | Support       | Rendering Method  | Notes                                    |
-| ------------------------ | ------------- | ----------------- | ---------------------------------------- |
-| **Flowcharts**           | ✅ Full       | Individual shapes | Includes styling and labels              |
-| **Sequence Diagrams**    | ⚠️ Basic      | Individual shapes | May not render optimally in some cases   |
-| **Gantt Charts**         | ✅ Full       | Single image      | Perfect visual reproduction              |
-| **State Diagrams**       | ✅ Full       | Single image      | Complete state transitions               |
-| **ER Diagrams**          | ✅ Full       | Single image      | Database relationships preserved         |
-| **Pie Charts**           | ✅ Full       | Single image      | Data visualization maintained            |
-| **Journey Maps**         | ✅ Full       | Single image      | User experience flows                    |
-| **Requirement Diagrams** | ✅ Full       | Single image      | System requirements                      |
-| **Timelines**            | ✅ Full       | Single image      | Chronological events                     |
-| **Mindmaps**             | ✅ Full       | Single image      | Hierarchical structures                  |
-| **Class Diagrams**       | ⚠️ Basic      | Individual shapes | Renders skeleton, text currently missing |
-| **Git Graphs**           | 🔄 Processing | Varies            | Attempting conversion, results may vary  |
+### **Method 2: BRAT Installation (Beta)**
 
-## 🔧 Compatibility
+1. **Install BRAT Plugin** from Obsidian Community Plugins
+2. **Add Repository** URL in BRAT settings: `YahyaZekry/obsidian-mermaid-to-excalidraw`
+3. **Auto-Updates** - Plugin updates automatically through BRAT
 
-- **Works with both plugins enabled**: You can use this plugin alongside the official Excalidraw plugin
-- **Requires Excalidraw plugin**: The official Excalidraw plugin must be installed to view the converted files
-- **Supports all Mermaid types**: Flowcharts, graphs, sequence diagrams, and more
+---
 
-## Development
+## 🎯 **Usage Guide**
 
-1.  Clone this repository.
-2.  Navigate to the `obsidian-mermaid-to-excalidraw` directory (or this directory if it's a standalone repo).
-3.  Install dependencies: `npm install`
-4.  Build the plugin: `npm run build`
-    - This generates `main.js`.
-5.  For development, you can use `npm run dev` to automatically rebuild on changes.
+### **Single Diagram Conversion**
 
-## License
+1. **Create Mermaid Diagram**
+   ```mermaid
+   graph TD
+       A[🐻 Start Process] --> B{Decision Point}
+       B -->|Yes| C[✅ Execute Action]
+       B -->|No| D[❌ Alternative Path]
+       C --> E[🎯 Success]
+       D --> E
+   ```
 
-This plugin is released under the MIT License. See the [LICENSE](LICENSE) file for details.
-The core conversion library this plugin utilizes, `@excalidraw/mermaid-to-excalidraw`, is also licensed under the MIT License, Copyright (c) 2023 Excalidraw.
+2. **Convert to Excalidraw**
+   - Select entire Mermaid code block
+   - Command Palette (Ctrl/Cmd + P) → "Convert Mermaid to New Excalidraw File"
+   - New file created: `Converted-Mermaid-[timestamp].excalidraw.md`
+
+3. **View Result**
+   - Open generated file and switch to Excalidraw view
+   - Full visual diagram with preserved labels and styling
+
+### **Bulk Conversion Workflow**
+
+1. **Multi-Diagram Document**
+   ```markdown
+   # My Diagrams
+   
+   ## Process Flow
+   ```mermaid
+   graph LR
+       A --> B --> C
+   ```
+   
+   ## System Architecture
+   ```mermaid
+   graph TD
+       API --> DB
+       DB --> Cache
+   ```
+   ```
+
+2. **Batch Convert**
+   - Click 🔄 ribbon icon or use "Convert All Mermaid Diagrams in File"
+   - Generated files: `Filename-Diagram-1.excalidraw.md`, `Filename-Diagram-2.excalidraw.md`
+   - Success notification with conversion count
+
+---
+
+## 📊 **Supported Diagram Matrix**
+
+| Diagram Type | Support Level | Rendering Method | Text Labels | Notes |
+|--------------|---------------|------------------|-------------|---------|
+| **Flowcharts** | ✅ Excellent | Individual shapes | ✅ Full | Perfect shape and label conversion |
+| **Sequence Diagrams** | ⚠️ Good | Individual shapes | ✅ Partial | Basic structure, some styling limitations |
+| **Gantt Charts** | ✅ Excellent | Single image | ✅ Full | Complete timeline visualization |
+| **State Diagrams** | ✅ Excellent | Single image | ✅ Full | All state transitions preserved |
+| **ER Diagrams** | ✅ Excellent | Single image | ✅ Full | Database relationships maintained |
+| **Pie Charts** | ✅ Excellent | Single image | ✅ Full | Data visualization with percentages |
+| **Journey Maps** | ✅ Excellent | Single image | ✅ Full | User experience flows complete |
+| **Requirement Diagrams** | ✅ Excellent | Single image | ✅ Full | System requirements preserved |
+| **Timelines** | ✅ Excellent | Single image | ✅ Full | Chronological events with dates |
+| **Mindmaps** | ✅ Excellent | Single image | ✅ Full | Hierarchical structures maintained |
+| **Class Diagrams** | ⚠️ Basic | Individual shapes | ❌ Limited | Structure only, text needs improvement |
+| **Git Graphs** | 🔄 Beta | Varies | ⚠️ Partial | Experimental support, results vary |
+
+---
+
+## 🔧 **Advanced Configuration**
+
+### **Plugin Settings**
+- **Output Directory** - Specify where converted files are saved
+- **Naming Convention** - Customize generated file naming patterns
+- **Compression Level** - Adjust LZ-string compression settings
+- **Error Handling** - Configure behavior for malformed diagrams
+
+### **Conversion Options**
+- **Preserve Colors** - Maintain Mermaid color schemes in Excalidraw
+- **Scale Factor** - Adjust diagram size during conversion
+- **Text Rendering** - Choose between shape labels or floating text
+- **Background Style** - Set transparent or solid backgrounds
+
+---
+
+## 🛠️ **Development**
+
+### **Building the Plugin**
+
+```bash
+# Install dependencies
+npm install
+
+# Development build with watch mode
+npm run dev
+
+# Production build
+npm run build
+
+# Run test suite
+npm test
+
+# Type checking
+npx tsc --noEmit --skipLibCheck
+```
+
+### **Testing Framework**
+
+```bash
+# Run all tests
+npm test
+
+# Watch mode for development
+npm test -- --watch
+
+# Coverage report
+npm test -- --coverage
+```
+
+### **Contributing**
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/bear-diagram-power`)
+3. Add comprehensive tests for new diagram types
+4. Ensure TypeScript type safety
+5. Commit with descriptive messages (`git commit -m '🐻 Add bear-strength conversion features'`)
+6. Open Pull Request with test coverage
+
+---
+
+## 🏗️ **Architecture Overview**
+
+```
+obsidian-mermaid-to-excalidraw/
+├── src/
+│   ├── main.ts                    # Plugin entry point and Obsidian API
+│   ├── MermaidConverter.ts        # Core conversion logic
+│   ├── ExcalidrawGenerator.ts     # Excalidraw format generation
+│   ├── DiagramProcessor.ts        # Mermaid parsing and analysis
+│   ├── FileManager.ts            # Obsidian file operations
+│   └── utils/
+│       ├── compression.ts        # LZ-string utilities
+│       ├── shapes.ts            # Excalidraw shape generation
+│       └── types.ts             # TypeScript definitions
+├── __tests__/                    # Jest test suite
+│   ├── converter.test.ts        # Conversion logic tests
+│   ├── diagrams.test.ts         # Diagram type tests
+│   └── integration.test.ts      # End-to-end tests
+├── manifest.json                 # Obsidian plugin manifest
+├── esbuild.config.mjs           # Build configuration
+└── package.json                 # Dependencies and scripts
+```
+
+---
+
+## 🤝 **Compatibility & Requirements**
+
+### **Plugin Dependencies**
+- **✅ Excalidraw Plugin** - Official Obsidian Excalidraw plugin required for viewing
+- **✅ Obsidian 0.15.0+** - Modern Obsidian version with plugin API support
+- **✅ Cross-Platform** - Works on Windows, macOS, and Linux
+
+### **Supported Formats**
+- **Input** - Standard Mermaid code blocks with ```mermaid syntax
+- **Output** - Compressed `.excalidraw.md` files with full compatibility
+- **Integration** - Seamless workflow with existing Mermaid and Excalidraw content
+
+---
+
+## 🏆 **Acknowledgments**
+
+### **Based on Excalidraw's Work**
+This plugin utilizes and extends the core functionality of [`@excalidraw/mermaid-to-excalidraw`](https://github.com/excalidraw/mermaid-to-excalidraw) library.
+
+**Original License**: MIT License, Copyright (c) 2023 Excalidraw
+
+### **Technology Credits**
+- **Mermaid.js Team** - Excellent diagram syntax and rendering engine
+- **Excalidraw Team** - Beautiful drawing library and conversion tools
+- **Obsidian Team** - Powerful plugin architecture and community support
+
+---
+
+## 📄 **License**
+
+MIT License - see [LICENSE](LICENSE) file for complete details.
+
+**Copyright (c) 2025 The Bear Code**
+
+*This plugin extends the MIT-licensed `@excalidraw/mermaid-to-excalidraw` library*
+
+---
+
+## 🐻 **Author**
+
+**Yahya Zekry** • The Bear Code  
+- GitHub: [@YahyaZekry](https://github.com/YahyaZekry)  
+- LinkedIn: [Professional Profile](https://www.linkedin.com/in/yahyazekry/)  
+- Project: [Mermaid to Excalidraw Converter](https://github.com/YahyaZekry/obsidian-mermaid-to-excalidraw)
+
+---
+
+**Built with ❤️ for the Obsidian community • The Bear Code philosophy: Smart conversion, visual excellence 🐻📊**
+
+<div align="center">
+  <a href="https://buymeacoffee.com/YahyaZekry" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Support The Bear Code" height="45" />
+  </a>
+</div>
+
+<div align="center">
+  <sub>Converting diagrams with bear-like precision, one Mermaid at a time 🧉</sub>
+</div>

@@ -334,7 +334,7 @@ export default class MermaidToExcalidrawPlugin extends Plugin {
 
       const jsonString = JSON.stringify(excalidrawData, null, 2);
       // Use LZString for compression to match Excalidraw's typical format
-      const base64EncodedData = LZString.compressToBase64(jsonString);
+      // const base64EncodedData = LZString.compressToBase64(jsonString);
 
       // New structure with actual compression and official Excalidraw plugin frontmatter
       const fileContent = `---
@@ -583,14 +583,14 @@ ${jsonString}
         // const base64EncodedData = LZString.compressToBase64(jsonString);
 
         const fileContent = `---
-excalidraw-plugin: parsed
+excalidraw-plugin: raw
 tags: [excalidraw]
 ---
 
 ==⚠  Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ⚠==
 
 ## Drawing
-\`\`\`compressed-json
+\`\`\`json
 ${jsonString}
 \`\`\`
 %%`;

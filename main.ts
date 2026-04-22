@@ -345,8 +345,8 @@ tags: [excalidraw]
 ==⚠  Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ⚠==
 
 ## Drawing
-\`\`\`compressed-json
-${base64EncodedData}
+\`\`\`json
+${jsonString}
 \`\`\`
 %%`;
       const newFile = await this.app.vault.create(filePath, fileContent);

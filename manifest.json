@@ -1,8 +1,8 @@
 {
   "id": "mermaid-to-excalidraw",
   "name": "Mermaid to Excalidraw Converter",
-  "version": "1.0.1",
-  "minAppVersion": "1.0.1",
+  "version": "1.0.3",
+  "minAppVersion": "1.0.3",
   "description": "Converts Mermaid diagrams to Excalidraw drawings. Supports single diagram conversion (select code block and use command) and bulk conversion of all diagrams in a file (ribbon icon or command).",
   "author": "hhohh",
   "authorUrl": "https://github.com/hhohh",

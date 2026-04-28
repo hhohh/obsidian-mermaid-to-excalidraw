@@ -18,21 +18,15 @@ import { parseMermaidToExcalidraw } from "./core-lib"; // Assuming index.ts in c
 // Function to transform custom elements to proper Excalidraw format
 function transformToExcalidrawElements(customElements: any[]): any[] {
   const excalidrawElements: any[] = [];
+  const arrowInfos: { id: string; startId: string; endId: string }[] = [];
 
   for (const element of customElements) {
-    // console.log("DEBUG: Processing element:", element); // Removed DEBUG log
-
     // Handle image elements (for gantt, pie, etc. that render as images)
     if (element.type === "image") {
-      // console.log(
-      //   `DEBUG: Image element found. Original fileId: ${element.fileId}. Original element.id: ${element.id}`,
-      //   element
-      // ); // Removed DEBUG log
-      const newElementId = element.id || nanoid(); // ID for the Excalidraw element itself
-      const newFileId = nanoid(); // New FileId for Excalidraw's internal file referencing
+      const newElementId = element.id || nanoid();
+      const newFileId = nanoid();
 
       const imageElement: any = {
-        // Add 'any' to allow temporary property
         id: newElementId,
         type: "image",
         x: element.x || 0,
@@ -53,25 +47,20 @@ function transformToExcalidrawElements(customElements: any[]): any[] {
         seed: Math.floor(Math.random() * 1000000),
         versionNonce: Math.floor(Math.random() * 1000000),
         isDeleted: false,
-        boundElements: [], // Changed from null to empty array
+        boundElements: [],
         updated: 1,
         link: null,
         locked: false,
-        fileId: newFileId, // Use the new nanoid for Excalidraw element's fileId
+        fileId: newFileId,
         scale: [1, 1],
-        originalFileId: element.fileId, // Store original to re-map files object later
+        originalFileId: element.fileId,
       };
-      // console.log(
-      //   "DEBUG: Created Excalidraw image element (pre-file-remapping):",
-      //   imageElement
-      // ); // Removed DEBUG log
       excalidrawElements.push(imageElement);
       continue;
     }
 
-    // Handle regular shape elements
+    // Handle regular shape elements — preserve colors from mermaid
     let shapeElement: any = {
-      // Use 'any' for flexibility with type-specific properties
       id: element.id,
       type: element.type,
       x: element.x,
@@ -79,22 +68,22 @@ function transformToExcalidrawElements(customElements: any[]): any[] {
       width: element.width || 0,
       height: element.height || 0,
       angle: 0,
-      strokeColor: "#1e1e1e",
-      backgroundColor: "transparent",
-      fillStyle: "solid",
+      strokeColor: element.strokeColor ?? "#1e1e1e",
+      backgroundColor: element.backgroundColor ?? "transparent",
+      fillStyle: element.fillStyle ?? "solid",
       strokeWidth: element.strokeWidth || 2,
-      strokeStyle: "solid",
+      strokeStyle: element.strokeStyle ?? "solid",
       roughness: 1,
       opacity: 100,
       groupIds: element.groupIds || [],
       frameId: null,
-      roundness: element.roundness || null,
+      roundness: element.roundness ?? null,
       seed: Math.floor(Math.random() * 1000000),
       versionNonce: Math.floor(Math.random() * 1000000),
       isDeleted: false,
-      boundElements: [], // Changed from null to empty array
+      boundElements: [],
       updated: 1,
-      link: element.link,
+      link: element.link ?? null,
       locked: false,
     };
 
@@ -105,80 +94,147 @@ function transformToExcalidrawElements(customElements: any[]): any[] {
         [0, 0],
       ];
       shapeElement.lastCommittedPoint = null;
+      shapeElement.start = element.start ?? null;
+      shapeElement.end = element.end ?? null;
       shapeElement.startBinding = element.start
         ? { elementId: element.start.id, focus: 0, gap: 0 }
         : null;
       shapeElement.endBinding = element.end
         ? { elementId: element.end.id, focus: 0, gap: 0 }
         : null;
-      shapeElement.startArrowhead = element.startArrowhead || null; // Ensure default if not specified
-      shapeElement.endArrowhead = element.endArrowhead || "arrow"; // Default to arrow if not specified
+      shapeElement.startArrowhead = element.startArrowhead ?? null;
+      shapeElement.endArrowhead = element.endArrowhead ?? "arrow";
+
+      if (element.start?.id && element.end?.id) {
+        arrowInfos.push({
+          id: element.id,
+          startId: element.start.id,
+          endId: element.end.id,
+        });
+      }
     } else if (element.type === "line") {
-      // Ensure 'points' property for line elements
       shapeElement.points = element.points || [
         [0, 0],
         [0, 0],
       ];
-      // Ensure arrowheads are null for basic lines if not specified
-      shapeElement.startArrowhead = element.startArrowhead || null;
-      shapeElement.endArrowhead = element.endArrowhead || null;
+      shapeElement.lastCommittedPoint = null;
+      shapeElement.startArrowhead = element.startArrowhead ?? null;
+      shapeElement.endArrowhead = element.endArrowhead ?? null;
     } else if (element.type === "frame") {
-      // Ensure 'children' property for frame elements
-      shapeElement.name = element.name || ""; // Frames have names
-      shapeElement.children = element.children || []; // Ensure children is an array
+      shapeElement.name = element.name || "";
+      shapeElement.children = element.children || [];
     }
 
     excalidrawElements.push(shapeElement);
 
     // If element has a label, create a separate text element
     if (element.label && element.label.text) {
+      const text = sanitizeLabelText(element.label.text);
+      const fontSize = element.label.fontSize || 16;
+
+      // Estimate text dimensions
+      const lines = text.split("\n");
+      const maxLineWidth = Math.max(...lines.map((l: string) => estimateTextWidth(l, fontSize)));
+      const lineCount = lines.length;
+      const textHeight = fontSize * lineCount * 1.25;
+      const textWidth = maxLineWidth;
+
+      // Expand container to contain its text
+      const CONTAINER_PAD = 14;
+      const MAX_WIDTH = 500;
+      const neededW = Math.min(Math.max(shapeElement.width, textWidth + CONTAINER_PAD * 2), MAX_WIDTH);
+      const neededH = Math.max(shapeElement.height, textHeight + CONTAINER_PAD * 2);
+      shapeElement.width = neededW;
+      shapeElement.height = neededH;
+
+      // Center the text on the (possibly expanded) container
+      const cx = shapeElement.x + shapeElement.width / 2;
+      const cy = shapeElement.y + shapeElement.height / 2;
+
       const textElement = {
         id: `${element.id}_text`,
         type: "text",
-        x:
-          element.x +
-          (element.width || 0) / 2 -
-          (element.label.text.length * (element.label.fontSize || 16)) / 4,
-        y:
-          element.y +
-          (element.height || 0) / 2 -
-          (element.label.fontSize || 16) / 2,
-        width: element.label.text.length * (element.label.fontSize || 16) * 0.6,
-        height: element.label.fontSize || 16,
+        x: cx - textWidth / 2,
+        y: cy - textHeight / 2,
+        width: textWidth,
+        height: textHeight,
         angle: 0,
-        strokeColor: "#1e1e1e",
+        strokeColor: element.label.strokeColor ?? "#1e1e1e",
         backgroundColor: "transparent",
         fillStyle: "solid",
         strokeWidth: 2,
         strokeStyle: "solid",
         roughness: 1,
         opacity: 100,
-        groupIds: element.label.groupIds || [],
+        groupIds: element.groupIds || [],
         frameId: null,
         roundness: null,
         seed: Math.floor(Math.random() * 1000000),
         versionNonce: Math.floor(Math.random() * 1000000),
         isDeleted: false,
-        boundElements: [], // Changed from null to empty array
+        boundElements: [],
         updated: 1,
         link: null,
         locked: false,
-        text: element.label.text,
-        fontSize: element.label.fontSize || 16,
+        text,
+        fontSize,
         fontFamily: 1,
         textAlign: "center",
         verticalAlign: "middle",
         baseline: 13,
         containerId: element.id,
-        originalText: element.label.text,
+        originalText: text,
         lineHeight: 1.25,
       };
 
       excalidrawElements.push(textElement);
+
+      // Link container → text via boundElements
+      shapeElement.boundElements.push({ type: "text", id: textElement.id });
+    }
+  }
+
+  // Add bidirectional arrow bindings: containers reference arrows back
+  for (const info of arrowInfos) {
+    for (const boundId of [info.startId, info.endId]) {
+      const container = excalidrawElements.find(
+        (el) => el.id === boundId && el.type !== "arrow" && el.type !== "line"
+      );
+      if (container && !container.boundElements?.some((b: any) => b.id === info.id)) {
+        container.boundElements.push({ type: "arrow", id: info.id });
+      }
     }
   }
 
   return excalidrawElements;
+}
+
+/**
+ * Convert HTML <br> to newline, strip other simple HTML tags and markdown.
+ */
+function sanitizeLabelText(text: string): string {
+  return text
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/?[^>]+(>|$)/g, "")
+    .replace(/\*\*(.+?)\*\*/g, "$1")
+    .replace(/\*(.+?)\*/g, "$1")
+    .replace(/__(.+?)__/g, "$1")
+    .replace(/_(.+?)_/g, "$1")
+    .replace(/~~(.+?)~~/g, "$1")
+    .replace(/`(.+?)`/g, "$1")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+}
+
+/**
+ * Estimate pixel width of a text line (CJK-aware).
+ */
+function estimateTextWidth(text: string, fontSize: number): number {
+  let w = 0;
+  for (const ch of text) {
+    if (ch.charCodeAt(0) > 0x2e80) w += 1.0;
+    else w += 0.6;
+  }
+  return w * fontSize;
 }
 
 export default class MermaidToExcalidrawPlugin extends Plugin {
